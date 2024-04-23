@@ -23,9 +23,15 @@ export default function Loginpage() {
   const handleHRFormSubmit = (formData) => {
     // Handle HR login form submission here
     console.log("HR Form Data:", formData);
-    setUserType("")
-    setempverify(false)
-    sethrverify(true);
+    if(userType){
+      setUserType("")
+    }
+    if(empverify){
+      setempverify(false)
+    }
+    if(!hrverify){
+      sethrverify(true);
+    }
     axios.post('http://127.0.0.1:5000/login',formData).
       then(function (response) {
         const token = response.data.access_token;
@@ -35,22 +41,27 @@ export default function Loginpage() {
       console.error('Login error:', error.response.data.message);
   })
   };
-  const handleEmployeeformsubmit=(formData)=>{
+  const handleEmployeeformsubmit = (formData) => {
     console.log("Employee Data",formData)
-    setUserType("")
-    sethrverify(false)
-    setempverify(true)
-      axios.post('http://127.0.0.1:5000/login',formData).
+    if(userType){
+      setUserType("")
+    }
+    if(!empverify){
+      setempverify(true)
+    }
+    if(hrverify){
+      sethrverify(false);
+    }
+    axios.post('http://127.0.0.1:5000/login',formData).
       then(function (response) {
         const token = response.data.access_token;
-        localStorage.setItem('token', token);
-        
-        navigate('/dashboard');
+        localStorage.setItem('token', token);    
+        // navigate('/dashboard');
     }).catch(function (error) {
       console.error('Login error:', error.response.data.message);
-  });
+  })
  //   });
-  }
+  };
   return (
     <div className="login-page">
       <h1>Welcome</h1>

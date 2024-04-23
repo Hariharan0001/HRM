@@ -32,7 +32,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<Loginpage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
       </Routes>
     </Router>
   );

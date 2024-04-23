@@ -118,6 +118,25 @@ def get():
     leave_requests = [{'empid': result.empid, 'noofdays': result.noofdays, 'status': result.status,'Reason':result.reason} for result in results]
     return jsonify(leave_requests)
 
+@app.route('/applyleave',methods=['POST'])
+@jwt_required()
+def apply():
+    if request.method == 'POST':
+        data=request.json
+        print(data)
+        reason = data.get('reason')
+        empid = get_jwt_identity()
+        no_of_days = int(data.get('noOfDays'))
+        new_leave_request = leave(reason=reason, empid=empid, noofdays=no_of_days, status=False)
+        try:
+            db.session.add(new_leave_request)
+            db.session.commit()
+            return 'Leave request submitted successfully'
+        except Exception as e:
+            db.session.rollback()
+            return f'Error submitting leave request: {str(e)}'
+
+    return 'Invalid request method'
 
 if __name__ == '__main__':
     app.run(debug=True)
