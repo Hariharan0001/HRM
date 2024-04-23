@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="english">
+<html>
+<head>
+    <title>Login Form</title>
+    <style>
+        body{
+    position: relative;
+    left: 90px;
+    text-align: center;
+    border: 8px solid olivedrab;
+    padding: 5px;
+    width: 690px;
+    border-radius: 2em;
+}
+#page
+{
+    border: 10px solid grey;
+    background-color: aliceblue;
+    height: 570px;
+    width: 670px;
+    border-radius: 2em;
+}
+a
+{
+    display:inline-block;
+    background-color: black;
+    margin-right: 10px;
+    border-radius: 10%;
+    width: 100px;
+    height: 30px;
+    color: white;
+    text-decoration: none;
+    padding-top: 7px;
+}
+li
+{
+    display: inline;
+    text-align: center;
+    padding: ;
+     
+}
+#img
+{
+    width: 100px;
+    border-radius: 50%;
+    border: 5px solid green;
+}
+#login
+{
+    background-color:green;
+    border-radius: 2em ;
+    position: relative;
+    left: 5px;
+}
+#cancel
+{
+    background-color: red;
+    border-radius: 2em;
+    position: relative;
+    left: -4px;
+}
+button
+{
+    padding: 10px;
+    height: 40px;
+    width: 100px;
+}
+#login:hover,#cancel:hover
+{
+   border:5px solid darkcyan;
+   width:120px;
+   height:45px;
+}
+#forgot{
+    width: 150px;
+    height:30px;
+    transition: 00.5s;
+}
+#forgot:hover{
+    transition: 0.5s;
+    transform: translateX(10px);
+}
+
+    </style>
+</head>
+<body>
+    <div id="page">
+        <div id="link">
+            <ul>
+                <li><a id="link1" href="Home">Home</a></li>
+                <li><a id="link2" href="Product">Product</a></li>
+                <li><a id="link3" href="Service">Service</a></li>
+                <li><a id="link4" href="Contact">Contact US</a></li>
+            </ul>
+        </div>
+        <div>
+            <h1>Login Form</h1>
+            <img id="img" src="https://tse2.mm.bing.net/th?id=OIP.H_0cIiJ5AfzAkIfUGqDugQHaHa&pid=Api&P=0"/>
+        </div>
+        <div>
+            <form>
+             <br>
+               <label>USERNAME</label>
+               <input type="text" placeholder="Enter your username" required/><br> <br>
+               <label>PASSWORD</label>
+               <input type="password" placeholder="nter password" required/><br><br>
+            </form>   
+            <div id="button">
+             <button id="login">Submit</button>&emsp;
+            </div>
+            <br>
+            <input type="checkbox"/>
+            <label>Remember me</label><br>
+            <br>
+            <a href="#" id="forgot">forgot password</a></div><br>
+            <button id="cancel">Cancel</button>
+        </div>
+    </div>
+</body>
+</html>
