@@ -1,0 +1,54 @@
+.employee-onboard-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .onboard-form-container {
+    width: 400px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease;
+  }
+  
+  .onboard-form-container:hover {
+    transform: translateY(-5px);
+  }
+  
+  .onboard-form {
+    text-align: center;
+  }
+  
+  .onboard-form input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .onboard-form button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .onboard-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .onboard-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
