@@ -20,7 +20,7 @@ const LeaveRequests = () => {
             'Authorization': `Bearer ${token}`
         }
     });
-      setLeaveRequests(response.data);
+      setLeaveRequests(response.data,console.log(leaveRequests));
     } catch (error) {
       console.error("Error fetching leave requests:", error);
     }
@@ -28,12 +28,12 @@ const LeaveRequests = () => {
 
   const handleApprove = async (id) => {
     try {
-      await axios.put(`your_api_endpoint_here/${id}`, { status: true });
-      // Update the local state after approval
-      const updatedLeaveRequests = leaveRequests.map((request) =>
-        request.id === id ? { ...request, status: true } : request
-      );
-      setLeaveRequests(updatedLeaveRequests);
+      const token = localStorage.getItem('token');
+      await axios.put(`http://127.0.0.1:5000/approve/${id}`, { status: true},{headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
+      } });
+      fetchLeaveRequests();
     } catch (error) {
       console.error("Error approving leave request:", error);
     }
@@ -41,11 +41,12 @@ const LeaveRequests = () => {
 
   const handleReject = async (id) => {
     try {
-      await axios.put(`your_api_endpoint_here/${id}`, { status: false });
-      const updatedLeaveRequests = leaveRequests.map((request) =>
-        request.id === id ? { ...request, status: false } : request
-      );
-      setLeaveRequests(updatedLeaveRequests);
+      const token = localStorage.getItem('token');
+      await axios.put(`http://127.0.0.1:5000/approve/${id}`, { status: false},{headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
+      } });
+      fetchLeaveRequests();
     } catch (error) {
       console.error("Error rejecting leave request:", error);
     }

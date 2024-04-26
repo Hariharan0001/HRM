@@ -16,4 +16,5 @@ class leave(db.Model):
     empid=db.Column(db.String(50))
     noofdays=db.Column(db.Integer)
     status=db.Column(db.Boolean)
+    deleted=db.Column(db.Boolean)
 

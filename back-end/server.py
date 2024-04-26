@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager,create_access_token,jwt_required,get_j
 from models.model import db,User,leave
 from flask_cors import CORS
 from datetime import timedelta
-
+from mail import mail
 
 host = '127.0.0.1'
 user = 'root'
@@ -114,9 +114,54 @@ def val():
 @app.route('/leavereq',methods=['GET'])
 @jwt_required()
 def get():
-    results=leave.query.filter_by(status=False)
-    leave_requests = [{'empid': result.empid, 'noofdays': result.noofdays, 'status': result.status,'Reason':result.reason} for result in results]
+    results=leave.query.filter_by(deleted=False)
+    leave_requests = [{'id':result.id,'empid': result.empid, 'noofdays': result.noofdays, 'status': result.status,'Reason':result.reason} for result in results]
     return jsonify(leave_requests)
+
+@app.route('/approve/<int:id>',methods=['PUT'])
+@jwt_required()
+def approve(id):
+    if request.method == 'PUT':
+        data = request.json
+        leave_request = leave.query.get(id)
+        if not leave_request:
+            return jsonify({"message": "Leave request not found."}), 404
+
+        status = data.get('status')
+        if status is None:
+            return jsonify({"message": "Status is missing in the request."}), 400
+
+        if status:  # If status is True (approve)
+            leave_request.status = True
+        else:
+            leave_request.status = False
+
+        leave_request.deleted = True
+        db.session.commit()
+
+        if status:
+            return jsonify({"message": "Leave request approved successfully."}), 200
+        else:
+            return jsonify({"message": "Leave request rejected successfully."}), 200
+    else:
+        return jsonify({"message": "Method not allowed."}), 405
+
+@app.route('/onboard',methods=['POST'])
+@jwt_required()
+def onboard():
+    if request.method == 'POST':
+        data=request.json
+        name=data.get('username')
+        passwrd=data.get('password')
+        email=data.get('email')
+        new_emp=User(username=name,password=passwrd,role='emp')
+        try:
+            db.session.add(new_emp)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+        mail(name,passwrd,email)
+    return "Successfully employee Added"
 
 @app.route('/applyleave',methods=['POST'])
 @jwt_required()
