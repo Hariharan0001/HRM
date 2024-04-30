@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Admin.css";
 import EmployeeOnboard from "./EmployeeOnboard";
 import LeaveRequests from "./employeeleareq";
+import Generatepayroll from "./Generatepayroll";
 export default function Admin() {
   const [leave,setleave]=useState(false)
   const [onboard,setonboard]=useState(false)
@@ -42,6 +43,7 @@ export default function Admin() {
       </div>
        {onboard && <EmployeeOnboard />}
       {leave && <LeaveRequests />}
+      {payroll && <Generatepayroll />}
     </div>
   );
 }

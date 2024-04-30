@@ -34,11 +34,12 @@ export default function Loginpage() {
     }
     axios.post('http://127.0.0.1:5000/login',formData).
       then(function (response) {
+        console.log(response)
         const token = response.data.access_token;
         localStorage.setItem('token', token);
         //setempverify((pre)=>!pre)
     }).catch(function (error) {
-      console.error('Login error:', error.response.data.message);
+      console.error('Login error:', error.data.response.message);
   })
   };
   const handleEmployeeformsubmit = (formData) => {
@@ -54,6 +55,7 @@ export default function Loginpage() {
     }
     axios.post('http://127.0.0.1:5000/login',formData).
       then(function (response) {
+        console.log(response)
         const token = response.data.access_token;
         localStorage.setItem('token', token);    
         // navigate('/dashboard');

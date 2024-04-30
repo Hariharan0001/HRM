@@ -4,10 +4,11 @@ import datetime
 from pyzbar.pyzbar import decode
 import mysql.connector
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required,get_jwt_identity
-from models.model import db,User,leave
+from models.model import db,User,leave,Emp
 from flask_cors import CORS
 from datetime import timedelta
 from mail import mail
+from sqlalchemy import func
 
 host = '127.0.0.1'
 user = 'root'
@@ -95,7 +96,7 @@ def login():
     if not user:
         return jsonify({'status':False,'message': 'Invalid username or password'}), 401
 
-    access_token = create_access_token(identity=user.username, expires_delta=expires)
+    access_token = create_access_token(identity=user.employee_id, expires_delta=expires)
     return jsonify({'status':True,'access_token':access_token}), 200
 
 
@@ -154,13 +155,13 @@ def onboard():
         name=data.get('username')
         passwrd=data.get('password')
         email=data.get('email')
-        new_emp=User(username=name,password=passwrd,role='emp')
+        emp_id=mail(name,passwrd,email)
+        new_emp=User(employee_id=emp_id,username=name,password=passwrd,role='emp')
         try:
             db.session.add(new_emp)
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-        mail(name,passwrd,email)
     return "Successfully employee Added"
 
 @app.route('/applyleave',methods=['POST'])
@@ -182,6 +183,27 @@ def apply():
             return f'Error submitting leave request: {str(e)}'
 
     return 'Invalid request method'
+
+
+@app.route('/generate_payroll', methods=['GET'])
+@jwt_required()
+def generate_payroll_all():
+    try:
+        employee_ids = [emp.empcode for emp in Emp.query.distinct(Emp.empcode).all() if emp.empcode is not None]
+        payroll_data = {}
+        for employee_id in employee_ids:
+            total_time_seconds = db.session.query(func.sum(Emp.tot)).filter(Emp.empcode == employee_id).scalar() or 0
+            total_time_hours = total_time_seconds / 3600 
+            total_leave_days = db.session.query(func.sum(leave.noofdays)).filter(leave.empid == employee_id, leave.deleted == True).scalar() or 0
+            total_leave_hours = total_leave_days * 8  
+            total_time_after_leave = total_time_hours - total_leave_hours
+            payroll_amount = total_time_after_leave * 200 
+            payroll_data[employee_id] = payroll_amount
+
+        return jsonify(payroll_data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)

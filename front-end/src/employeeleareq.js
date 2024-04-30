@@ -134,7 +134,7 @@ const LeaveRequests = () => {
         ))}
       </tbody>
     </table> */}
-    <table className="table table-striped table-bordered table-hover text-center my-4">
+    <table className="table table-striped table-bordered table-hover text-center my-4" style={{ fontSize: '24px',border: '1px solid #ccc'}}>
       <thead className="table-dark">
         <tr>
           <th>Employee ID</th>

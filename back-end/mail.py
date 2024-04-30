@@ -1,4 +1,4 @@
-import smtplib
+import smtplib,random
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
@@ -26,7 +26,11 @@ def mail(username,password,rec_mail):
     recipient_email = rec_mail
     subject = 'Employee OnBoard Email'
     body = f'Hi Dear, your username for HRM is {username} and the password is {password}.The below QR code is for Employee Attendence Purpose.'
-    qrcode=generate_qr_code(username)
+    random_number1 = random.randint(10, 99)
+    random_number2= random.randint(10,99)
+    data=f'{random_number1}{username}{random_number2}'
+    qrcode=generate_qr_code(data)
     send_email(sender_email, sender_password, recipient_email, subject, body,qrcode)
+    return data
 
 print("Email sent successfully!")

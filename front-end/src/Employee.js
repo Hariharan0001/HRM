@@ -10,7 +10,7 @@ export default function Employee({ onLogin }) {
     let role="emp"
     onLogin({ employeeID, password, role });
   };
-
+  
   return (
     <div>
       <div className="employee-login-page">

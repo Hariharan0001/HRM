@@ -1,17 +1,14 @@
-import qrcode,random
+import qrcode
 from io import BytesIO
 
 def generate_qr_code(data):
-    random_number1 = random.randint(10, 99)
-    random_number2= random.randint(10,99)
-    data1=f"{random_number2}{data}{random_number1}"
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=4,
     )
-    qr.add_data(data1)
+    qr.add_data(data)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     byte_io = BytesIO()
